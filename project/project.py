@@ -27,7 +27,8 @@ def login_to_instagram(driver, username, password):
     password_field.send_keys(password)
     password_field.send_keys(Keys.ENTER)
     sleep(5)
-    # Ignore Popups
+    
+    # Ignore Popups (This is not needed unless you want to scrap your homepage)
     save_info = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[role="button"]')))
     save_info.click()
     notification = WebDriverWait(driver, 20).until(
@@ -49,8 +50,7 @@ def construct_search_url(search_for):
 def save_images(driver, dest_loc):
     # Scroll down the webpage
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    # Wait for some time to let the page load completely after scrolling
-    sleep(5)
+    sleep(5) # Wait for some time to let the page load completely after scrolling
 
     # Save images
     image_elements = driver.find_elements(By.XPATH, '//img[@class="x5yr21d xu96u03 x10l6tqk x13vifvy x87ps6o xh8yej3"]')

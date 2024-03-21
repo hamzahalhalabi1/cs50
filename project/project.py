@@ -13,7 +13,7 @@ import os
 def get_user_input():
     my_user = input("Phone number, username, or email: ")
     my_password = stdiomask.getpass(prompt='Enter your password: ', mask='*')
-    search_for = input("@ or #: ")
+    search_for = input("@ or #: ") # if you don't input @ or # it will not work
     return my_user, my_password, search_for
 
 def login_to_instagram(driver, username, password):
@@ -44,8 +44,7 @@ def construct_search_url(search_for):
     elif "@" in search_for:
         return f"https://www.instagram.com/{search_for.replace('@', '')}/"
     else:
-        print("Invalid search input. Please provide a valid search term.")
-        return None
+        return f"https://www.instagram.com/explore/tags/{search_for.replace('#', '')}/"
 
 def save_images(driver, dest_loc):
     # Scroll down the webpage

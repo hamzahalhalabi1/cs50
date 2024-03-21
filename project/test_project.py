@@ -1,43 +1,44 @@
+import os
 import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.edge.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from time import sleep
+import stdiomask
+import requests
+from unittest.mock import patch
+
 from project import login_to_instagram
 from project import search_on_instagram
 from project import construct_search_url
+from project import save_images
 
+# Mocking user input for testing purposes
+@patch('builtins.input')
+def test_login_and_search(mock_input):
+    mock_input.side_effect = ['username', 'password', '@test_user']
 
-def test_login_to_instagram():
-    # Test data
-    username = "test_username"
-    password = "test_password"
-    
-    # Perform the test
-    login_to_instagram(username, password)
-    
-    # Check if login is successful by verifying if the current URL is the expected URL after login
-    assert driver.current_url == "https://www.instagram.com/"
+    driver = webdriver.Chrome()
+    login_to_instagram(driver, 'username', 'password')
+    assert driver.current_url == 'https://www.instagram.com/'
+
+    search_url = construct_search_url('@test_user')
+    search_on_instagram(driver, search_url)
+    assert driver.current_url == f'https://www.instagram.com/test_user/'
+
+    driver.quit()
 
 def test_construct_search_url():
-    # Test cases
-    hashtag_search = "#test"
-    username_search = "@test"
-    invalid_search = "test"
-    
-    # Perform the test
-    hashtag_url = construct_search_url(hashtag_search)
-    username_url = construct_search_url(username_search)
-    invalid_url = construct_search_url(invalid_search)
-    
-    # Check if URLs are constructed correctly
-    assert hashtag_url == "https://www.instagram.com/explore/tags/test/"
-    assert username_url == "https://www.instagram.com/test/"
-    assert invalid_url is None
+    assert construct_search_url('@test_user') == 'https://www.instagram.com/test_user/'
+    assert construct_search_url('#test_tag') == 'https://www.instagram.com/explore/tags/test_tag/'
 
-def test_search_on_instagram():
-    # Test data
-    search_driver = webdriver.Chrome(service=service)
-    test_search_url = "https://www.instagram.com/explore/tags/test/"
-    
-    # Perform the test
-    search_on_instagram(search_driver, test_search_url)
-    
-    # Check if the current URL of the driver is the expected search URL
-    assert search_driver.current_url == test_search_url
+def test_save_images(tmpdir):
+    driver = webdriver.Chrome()
+    driver.get('https://www.instagram.com/test_user/')
+    dest_loc = tmpdir.mkdir('images')
+    save_images(driver, dest_loc)
+    assert len(os.listdir(dest_loc)) > 0
+    driver.quit()

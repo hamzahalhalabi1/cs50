@@ -1,87 +1,88 @@
-import selenium
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
-import stdiomask
-import requests
 import os
+import time
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from urllib.parse import urlparse
+import requests
 
-def get_user_input():
-    my_user = input("Phone number, username, or email: ")
-    my_password = stdiomask.getpass(prompt='Enter your password: ', mask='*')
-    search_for = input("@ or #: ") # if you don't input @ or # it will not work
-    return my_user, my_password, search_for
+# Function to create directory if it doesn't exist
+def create_directory(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
+# Function to download image from URL
+def download_image(url, directory):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(directory, 'wb') as file:
+            file.write(response.content)
+
+# Function to extract image URLs from Instagram page
+def extract_image_urls(driver, url):
+    driver.get(url)
+    time.sleep(5)  # Wait for the page to load
+
+    img_urls = set()
+    # Scroll down the page to load more images
+    for _ in range(5):  # Adjust the range as needed
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(3) 
+
+    # Find all image elements
+    img_elements = driver.find_elements(By.TAG_NAME, 'img')
+    for img_element in img_elements:
+        img_url = img_element.get_attribute('src')
+        if img_url and 'https' in img_url:
+            img_urls.add(img_url)
+
+    return img_urls
+
+# Function to login to Instagram
 def login_to_instagram(driver, username, password):
-    driver.get("https://www.instagram.com/")
-    driver.maximize_window()
-    user_name = driver.find_element(By.XPATH, "//input[@name='username']")
-    user_name.send_keys(username)
-    user_name.send_keys(Keys.ENTER)
-   
-    password_field = driver.find_element(By.XPATH, "//input[@name='password']")
-    password_field.send_keys(password)
-    password_field.send_keys(Keys.ENTER)
-    sleep(5)
-    
-    # Ignore Popups (This is not needed unless you want to scrap your homepage)
-    save_info = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[role="button"]')))
-    save_info.click()
-    notification = WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, 'button._a9--._ap36._a9_1')))
-    notification.click()
+    driver.get("https://www.instagram.com/accounts/login/")
+    time.sleep(5)  # Wait for the page to load
 
-def search_on_instagram(driver, search_url):
-    if search_url:
-        driver.get(search_url)
+    username_input = driver.find_element(By.NAME, 'username')
+    password_input = driver.find_element(By.NAME, 'password')
 
-def construct_search_url(search_for):
-    if "#" in search_for:
-        return f"https://www.instagram.com/explore/tags/{search_for.replace('#', '')}/"
-    elif "@" in search_for:
-        return f"https://www.instagram.com/{search_for.replace('@', '')}/"
-    else:
-        return f"https://www.instagram.com/explore/tags/{search_for.replace('#', '')}/"
+    username_input.send_keys(username)
+    password_input.send_keys(password)
+    password_input.send_keys(Keys.ENTER)
+    time.sleep(5)  # Wait for the login process
 
-def save_images(driver, dest_loc):
-    # Scroll down the webpage
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    sleep(5) # Wait for some time to let the page load completely after scrolling
-
-    # Save images
-    image_elements = driver.find_elements(By.XPATH, '//img[@class="x5yr21d xu96u03 x10l6tqk x13vifvy x87ps6o xh8yej3"]')
-    # Iterate over image elements and save them to the destination folder
-    for index, image_element in enumerate(image_elements):
-        image_source = image_element.get_attribute('src')
-        print("Downloading Image:", image_source)
-        # Download the image using requests
-        response = requests.get(image_source)
-        if response.status_code == 200:
-            # Construct the filename for the image
-            filename = f"image_{index}.jpg"  # You can modify the filename as per your requirement
-            filepath = os.path.join(dest_loc, filename)
-            # Save the image to the destination folder
-            with open(filepath, 'wb') as f:
-                f.write(response.content)
-            print("Image saved as:", filepath)
-        else:
-            print("Failed to download image:", image_source)
-
+# Main function
 def main():
-    dest_loc = r'C:\Users\hamza\PycharmProjects\CS50P\CS50p\project\images'
-    PATH = "C:\Program Files\drivers\chromedriver.exe"  # Driver path
-    service = Service(PATH)
-    driver = webdriver.Chrome(service=service)
+    # Initialize WebDriver
+    driver = webdriver.Chrome()  # You need to have Chrome WebDriver installed
+    driver.maximize_window()
 
-    my_user, my_password, search_for = get_user_input()
-    login_to_instagram(driver, my_user, my_password)
-    search_url = construct_search_url(search_for)
-    search_on_instagram(driver, search_url)
-    save_images(driver, dest_loc)
+    # Your Instagram credentials
+    username = 'hamzah.alhalabi'
+    password = 'Bruhmoment1@'
+
+    # Login to Instagram
+    login_to_instagram(driver, username, password)
+
+    # URL of the Instagram page to scrape
+    url = "https://www.instagram.com/sobkays/"
+
+    # Extract image URLs
+    image_urls = extract_image_urls(driver, url)
+
+    # Directory to save images
+    download_dir = "instagram_images"
+    create_directory(download_dir)
+
+    # Download images
+    for idx, img_url in enumerate(image_urls):
+        image_name = f"image_{idx}.jpg"  # You can change the naming convention if needed
+        download_path = os.path.join(download_dir, image_name)
+        download_image(img_url, download_path)
+        print(f"Downloaded {image_name}")
+
+    # Close the WebDriver
+    driver.quit()
 
 if __name__ == "__main__":
     main()

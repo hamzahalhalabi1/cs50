@@ -1,6 +1,6 @@
-    # Instagram Photo Downloader: Automating with Selenium
-    #### Video Demo:  https://youtu.be/AY8JX1vc4jo
-    #### Description: Are you tired of manually saving photos from Instagram one by one? Say goodbye to the tedious process with our innovative solution - an Instagram photo downloader powered by Selenium automation!
+# Instagram Photo Downloader: Automating with Selenium
+#### Video Demo:  https://youtu.be/AY8JX1vc4jo
+#### Description: Are you tired of manually saving photos from Instagram one by one? Say goodbye to the tedious process with our innovative solution - an Instagram photo downloader powered by Selenium automation!
 
 Our project aims to simplify the task of downloading photos from Instagram by automating the entire process. Leveraging the Selenium framework, we have developed a web scraper that seamlessly navigates through Instagram's interface, locates desired photos, and swiftly downloads them to your local storage.
 

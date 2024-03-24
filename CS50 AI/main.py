@@ -1,4 +1,5 @@
 import sys
+import pillow
 
 class Node():
     def __init__(self, state, parent, action):
@@ -124,7 +125,7 @@ class Maze():
 
         # Initialize frontier to just the starting position
         start = Node(state=self.start, parent=None, action=None)
-        frontier = StackFrontier()
+        frontier = StackFrontier() #change this to adjust the search algorithm
         frontier.add(start)
 
         # Initialize an empty explored set

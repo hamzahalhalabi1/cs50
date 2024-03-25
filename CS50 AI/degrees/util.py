@@ -9,7 +9,7 @@ class StackFrontier():
     def __init__(self):
         self.frontier = []
 
-    def add(self, node):
+    def add(self,   ):
         self.frontier.append(node)
 
     def contains_state(self, state):

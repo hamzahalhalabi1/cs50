@@ -114,8 +114,7 @@ def shortest_path(source, target):
         # Mark actor (node) as explored
         explored.add(node.state)
         # Find the neighbors (actors to which he can connect) of the actor
-        neighbors = neighbors_for_person(node.state)
-        for movie, actor in neighbors:
+        for movie, actor in neighbors_for_person(node.state):
             if actor not in explored and  not frontier.contains_state(actor):
                 child = Node(state=actor, parent=node, action=movie)
                 if child.state == target:

@@ -112,7 +112,9 @@ def shortest_path(source, target):
             # Choose a node from the frontier
             node = frontier.remove()
             self.num_explored += 1
-    
+
+             # Mark node as explored
+            self.explored.add(node.state)
     
     
 

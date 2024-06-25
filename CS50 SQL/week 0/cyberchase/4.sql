@@ -1,1 +1,6 @@
-select title from episodes where topic is NULL;
+SELECT
+    TITLE
+FROM
+    EPISODES
+WHERE
+    TOPIC IS NULL;

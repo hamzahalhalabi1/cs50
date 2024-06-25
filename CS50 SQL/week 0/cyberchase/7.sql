@@ -1,1 +1,7 @@
-SELECT title, topic FROM episodes WHERE topic LIKE '%Fractions%';
+SELECT
+    TITLE,
+    TOPIC
+FROM
+    EPISODES
+WHERE
+    TOPIC LIKE '%Fractions%';

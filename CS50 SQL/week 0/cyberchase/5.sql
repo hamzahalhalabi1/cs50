@@ -1,1 +1,6 @@
-select title from episodes where air_date = '2004-12-31';
+SELECT
+    TITLE
+FROM
+    EPISODES
+WHERE
+    AIR_DATE = '2004-12-31';

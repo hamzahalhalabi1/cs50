@@ -1,0 +1,7 @@
+SELECT
+    BATS
+FROM
+    PLAYERS
+WHERE
+    FIRST_NAME IS 'Babe'
+    AND LAST_NAME IS 'Ruth';

@@ -1,0 +1,6 @@
+SELECT
+    ID
+FROM
+    PLAYERS
+WHERE
+    DEBUT IS NULL;

@@ -1,1 +1,7 @@
-SELECT season, title FROM episodes WHERE episode_in_season = 1;
+SELECT
+    SEASON,
+    TITLE
+FROM
+    EPISODES
+WHERE
+    EPISODE_IN_SEASON = 1;

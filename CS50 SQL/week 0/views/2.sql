@@ -1,0 +1,7 @@
+SELECT
+    AVERAGE_COLOR
+FROM
+    VIEWS
+WHERE
+    ARTIST IS 'Hokusai'
+    AND ENGLISH_TITLE LIKE '%river%';

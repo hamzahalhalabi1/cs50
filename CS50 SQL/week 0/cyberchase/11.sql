@@ -1,1 +1,8 @@
-SELECT title FROM episodes WHERE season = 5 ORDER BY title DESC;
+SELECT
+    TITLE
+FROM
+    EPISODES
+WHERE
+    SEASON = 5
+ORDER BY
+    TITLE DESC;

@@ -1,0 +1,6 @@
+SELECT
+    ROUND(AVG(ENTROPY), 2)
+FROM
+    VIEWS
+WHERE
+    ARTIST IS 'Hiroshige';

@@ -1,1 +1,8 @@
-SELECT id, title, production_code FROM episodes ORDER BY production_code;
+SELECT
+    ID,
+    TITLE,
+    PRODUCTION_CODE
+FROM
+    EPISODES
+ORDER BY
+    PRODUCTION_CODE;

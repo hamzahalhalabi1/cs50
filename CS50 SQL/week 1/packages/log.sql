@@ -8,6 +8,9 @@ select address_id from scans where package_id =(
 
 
 -- *** The Devious Delivery ***
+select type from addresses where id = (
+select to_address_id from packages where from_address_id is NULL);
 
+select * from packages where from_address_id is NULL; -- to find content of package 
 -- *** The Forgotten Gift ***
 

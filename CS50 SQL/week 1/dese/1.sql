@@ -1,0 +1,1 @@
+select name, city from schools where type is 'Public School';

@@ -1,1 +1,6 @@
-select name from districts where name like '%non-op%';
+SELECT
+    NAME
+FROM
+    DISTRICTS
+WHERE
+    NAME LIKE '%non-op%';

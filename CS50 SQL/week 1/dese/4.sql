@@ -1,0 +1,11 @@
+SELECT
+    CITY,
+    COUNT(NAME)
+FROM
+    SCHOOLS
+WHERE
+    TYPE = 'Public School'
+GROUP BY
+    CITY
+ORDER BY
+    COUNT(NAME) DESC, name LIMIT 10;

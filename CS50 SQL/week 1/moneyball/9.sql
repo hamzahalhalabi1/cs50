@@ -5,7 +5,8 @@ FROM
     SALARIES
     JOIN TEAMS
     ON TEAMS.ID = SALARIES.TEAM_ID
+    where salaries.year = 2001
 GROUP BY
     NAME
 ORDER BY
-    AVG(SALARY);
+    AVG(SALARY) asc limit 5;

@@ -1,4 +1,9 @@
-select first_name, last_name from players
-join salaries on salaries.player_id = players.id
-order by salary DESC
-limit 1;
+SELECT
+    FIRST_NAME,
+    LAST_NAME
+FROM
+    PLAYERS
+    JOIN SALARIES
+    ON SALARIES.PLAYER_ID = PLAYERS.ID
+ORDER BY
+    SALARY DESC LIMIT 1;

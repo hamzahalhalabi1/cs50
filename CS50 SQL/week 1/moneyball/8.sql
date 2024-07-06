@@ -1,6 +1,12 @@
-select hr from salaries
-join teams on teams.id = salaries.team_id
-join performances on performances.team_id = teams.id
-where performances.year = 2001
-order by hr DESC
-limit 1;
+SELECT
+    HR
+FROM
+    SALARIES
+    JOIN TEAMS
+    ON TEAMS.ID = SALARIES.TEAM_ID
+    JOIN PERFORMANCES
+    ON PERFORMANCES.TEAM_ID = TEAMS.ID
+WHERE
+    PERFORMANCES.YEAR = 2001
+ORDER BY
+    HR DESC LIMIT 1;

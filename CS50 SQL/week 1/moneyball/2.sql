@@ -1,6 +1,17 @@
-select year, salary from SALARIES
-where player_id = (
-    select id from players where first_name is 'Cal' 
-    and last_name is 'Ripken'
-)
-order by year desc;
+SELECT
+    YEAR,
+    SALARY
+FROM
+    SALARIES
+WHERE
+    PLAYER_ID = (
+        SELECT
+            ID
+        FROM
+            PLAYERS
+        WHERE
+            FIRST_NAME IS 'Cal'
+            AND LAST_NAME IS 'Ripken'
+    )
+ORDER BY
+    YEAR DESC;

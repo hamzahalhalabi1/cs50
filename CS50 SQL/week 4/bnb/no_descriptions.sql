@@ -1,0 +1,9 @@
+CREATE VIEW NO_DESCRIPTIONS AS
+    SELECT
+        ID,
+        PROPERTY_TYPE,
+        HOST_NAME,
+        ACCOMMODATES,
+        BEDROOMS
+    FROM
+        LISTINGS;

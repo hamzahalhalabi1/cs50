@@ -1,0 +1,10 @@
+CREATE VIEW ONE_BEDROOMS AS
+    SELECT
+        ID,
+        PROPERTY_TYPE,
+        HOST_NAME,
+        ACCOMMODATES
+    FROM
+        LISTINGS
+    WHERE
+        BEDROOMS = 1;

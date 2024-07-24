@@ -1,0 +1,1 @@
+select count(username) from users where last_login_date > datetime('2024-01-01');
